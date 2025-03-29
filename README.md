@@ -48,14 +48,17 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la 
 ```
 /
 ├── app/                    # App Router de Next.js
+│   └── globals.css         # Estilos globales de Tailwind CSS
 ├── components/             # Componentes reutilizables
+│   └── ui/                 # Componentes de Shadcn/UI
+├── lib/                    # Funciones y utilidades adicionales
 ├── public/                 # Archivos estáticos
-├── styles/                 # Estilos globales
 ├── utils/
 │   └── supabase/           # Configuración de Supabase
 │       ├── client.ts       # Cliente para el navegador
 │       └── server.ts       # Cliente para el servidor
 ├── .env.local              # Variables de entorno (debes crear este archivo)
+├── components.json         # Configuración de Shadcn/UI
 ├── middleware.ts           # Middleware para autenticación
 ├── next.config.mjs         # Configuración de Next.js
 └── tailwind.config.ts      # Configuración de Tailwind CSS

@@ -34,19 +34,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Supabase
-.branches
-.temp
-
-# IDE
-.idea/
-.vscode/
-*.code-workspace
-
-# Logs
-logs
-*.log
-
-# Cache
-.cache/
