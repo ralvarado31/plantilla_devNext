@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Plantilla Next.js + Tailwind CSS + Shadcn/UI + Supabase
 
-## Getting Started
+Esta es una plantilla lista para usar que integra las siguientes tecnologías:
 
-First, run the development server:
+- [Next.js 14.2.4](https://nextjs.org/) - Framework React con App Router
+- [TypeScript](https://www.typescriptlang.org/) - Superset de JavaScript con tipado estático
+- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS utility-first
+- [Shadcn/UI](https://ui.shadcn.com/) - Componentes de UI personalizables
+- [Supabase](https://supabase.com/) - Backend as a Service (alternativa a Firebase)
+
+## Comenzando
+
+### 1. Clona el repositorio o descarga los archivos
+
+```bash
+git clone <url-del-repositorio>
+cd <nombre-de-carpeta>
+```
+
+### 2. Instala las dependencias
+
+```bash
+npm install
+```
+
+### 3. Configura Supabase
+
+1. Crea una cuenta en [Supabase](https://supabase.com/) si aún no tienes una
+2. Crea un nuevo proyecto
+3. Obtén las credenciales de tu proyecto desde Settings > API
+4. Actualiza el archivo `.env.local` con tus credenciales:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=TU_URL_DE_SUPABASE
+NEXT_PUBLIC_SUPABASE_ANON_KEY=TU_CLAVE_ANON_DE_SUPABASE
+```
+
+### 4. Inicia el servidor de desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estructura del Proyecto
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+/
+├── app/                    # App Router de Next.js
+├── components/             # Componentes reutilizables
+├── public/                 # Archivos estáticos
+├── styles/                 # Estilos globales
+├── utils/
+│   └── supabase/           # Configuración de Supabase
+│       ├── client.ts       # Cliente para el navegador
+│       └── server.ts       # Cliente para el servidor
+├── .env.local              # Variables de entorno (debes crear este archivo)
+├── middleware.ts           # Middleware para autenticación
+├── next.config.mjs         # Configuración de Next.js
+└── tailwind.config.ts      # Configuración de Tailwind CSS
+```
 
-## Learn More
+## Uso de Supabase
 
-To learn more about Next.js, take a look at the following resources:
+### En componentes de servidor
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```typescript
+// En un Server Component
+import { createClient } from '@/utils/supabase/server'
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+export default async function Page() {
+  const supabase = createClient()
+  const { data } = await supabase.from('tabla').select()
+  
+  return <div>{/* Renderiza los datos */}</div>
+}
+```
 
-## Deploy on Vercel
+### En componentes de cliente
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```typescript
+'use client'
+// En un Client Component
+import { createClient } from '@/utils/supabase/client'
+import { useEffect, useState } from 'react'
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+export default function ClientComponent() {
+  const [data, setData] = useState(null)
+  const supabase = createClient()
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await supabase.from('tabla').select()
+      setData(data)
+    }
+    fetchData()
+  }, [])
+  
+  return <div>{/* Renderiza los datos */}</div>
+}
+```
+
+## Instalación de Componentes Shadcn/UI
+
+Para añadir componentes de Shadcn/UI a tu proyecto:
+
+```bash
+npx shadcn-ui@latest add button
+```
+
+Reemplaza `button` con el nombre del componente que deseas añadir.
+
+## Comandos disponibles
+
+- `npm run dev` - Inicia el servidor de desarrollo
+- `npm run build` - Construye la aplicación para producción
+- `npm start` - Inicia la aplicación en modo producción
+- `npm run lint` - Ejecuta el linter para detectar problemas
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT.
